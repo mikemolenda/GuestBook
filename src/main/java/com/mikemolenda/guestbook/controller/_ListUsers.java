@@ -11,23 +11,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
- * The ShowUserInfo servlet responds with the information for the specified user.
+ * The _ListUsers servlet responds to requests to view a list of users.
  */
-@WebServlet(name = "ShowUserInfo", urlPatterns = "/manager/show-user-info")
-public class ShowUserInfo extends HttpServlet {
+@WebServlet(name = "_ListUsers", urlPatterns = "/manager/list-users")
+public class _ListUsers extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private UserDataAccess userData;
 
-    public ShowUserInfo() {
+    public _ListUsers() {
         super();
         userData = new UserDataAccess();
     }
 
     /**
-     * Render view that shows all info about a user
+     * Render a list of users, with buttons to view, edit, or delete each
      * @param request The HTTP request received from the client
      * @param response The HTTP response returned by the servlet
      * @throws ServletException The request could not be handled
@@ -45,31 +46,14 @@ public class ShowUserInfo extends HttpServlet {
             return;
         }
 
-        String url = "/WEB-INF/views/show-user-info.jsp";
-        String pageTitle;
-        String back = "list-users";
+        String url = "/WEB-INF/views/list-users.jsp";
+        String pageTitle = "Users";
 
-        // Get user data, if not found, respond with generic error
-        try {
-            User user = userData.getUser(Integer.parseInt(request.getParameter("id")));
-            request.setAttribute("user", user);
-
-            // Throw error if user email is null
-            if (user.getEmail() == null) {
-                throw new Exception("User email null");
-            }
-
-            pageTitle = String.format("Info for user %s %s", user.getFirstName(), user.getLastName());
-
-        } catch (Exception e) {
-            pageTitle = "User Not Found";
-            url = "/WEB-INF/views/error-generic.jsp";
-            String message = "The user you were attempting to view could not be found.";
-            request.setAttribute("message", message);
-        }
+        // Get list of users from DB
+        List<User> users = userData.getAllUsers();
+        request.setAttribute("users", users);
 
         request.setAttribute("pageTitle", pageTitle);
-        request.setAttribute("back", back);
         RequestDispatcher view = request.getRequestDispatcher(url);
         view.forward(request, response);
 
