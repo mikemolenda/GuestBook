@@ -33,8 +33,9 @@ public class UserRepositoryTest extends BaseRepositoryTest {
         expected.setPassword("PASSWORD1");
         subject.save(createEntity(1));
 
-        User result = subject.getOne(1L);
+        User result = subject.findById(1L).orElse(null);
 
+        assertThat(result).isNotNull();
         assertThat(result.getFirstName()).isEqualTo(expected.getFirstName());
         assertThat(result.getLastName()).isEqualTo(expected.getLastName());
     }
