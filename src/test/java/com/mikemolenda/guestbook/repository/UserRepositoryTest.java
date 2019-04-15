@@ -17,7 +17,7 @@ public class UserRepositoryTest extends BaseRepositoryTest {
         User entity = new User();
         entity.setFirstName("FIRSTNAME" + ordering);
         entity.setLastName("LASTNAME" + ordering);
-        entity.setType("TYPE" + ordering);
+        entity.setRole("ROLE" + ordering);
         entity.setEmail("EMAIL" + ordering);
         entity.setPassword("PASSWORD" + ordering);
         return entity;
@@ -28,7 +28,7 @@ public class UserRepositoryTest extends BaseRepositoryTest {
         User expected = new User();
         expected.setFirstName("FIRSTNAME1");
         expected.setLastName("LASTNAME1");
-        expected.setType("TYPE1");
+        expected.setRole("ROLE1");
         expected.setEmail("EMAIL1");
         expected.setPassword("PASSWORD1");
         subject.save(createEntity(1));

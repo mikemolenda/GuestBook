@@ -27,9 +27,9 @@ public class User {
     @NonNull
     private String lastName;
 
-    @Column(name = "type")
+    @Column(name = "role")
     @NonNull
-    private String type;
+    private String role;
 
     @Column(name = "email")
     @NonNull
